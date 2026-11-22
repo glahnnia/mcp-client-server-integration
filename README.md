@@ -6,7 +6,7 @@
 
 This project demonstrates how a Python client and server communicate using the **Model Context Protocol (MCP)**. The `DocumentMCP` example server exposes document-related **tools**, **resources**, and **prompt templates** over standard input/output (`stdio`). A client discovers those capabilities and invokes them through a standardized interface.
 
-The project includes a standalone, **API-key-free MCP smoke test** and a separate, optional Claude-powered command-line chat interface. This portfolio package consolidates code from an MCP learning project into a clearer structure for review and local testing.
+The project includes a standalone, **API-key-free MCP smoke test** that demonstrates client/server communication and validates the document-oriented tools, resources, and prompt templates. This portfolio package organizes an MCP learning project into a focused, reproducible integration example.
 
 **Scope:** This is an instructional implementation with synthetic document *text held in memory*. It does not open actual PDFs, DOCX files, or Markdown files on disk. Document edits last only until the server exits.
 
@@ -27,12 +27,12 @@ The project includes a standalone, **API-key-free MCP smoke test** and a separat
 | Prompt template | `format(doc_id)` | Returns instructions for Markdown formatting using document tools |
 | Prompt template | `summarize(doc_id)` | Returns instructions for summarizing a document |
 
-**Important distinction:** Fetching a prompt template does not by itself invoke an AI model or reformat/summarize the document. The optional Claude CLI provides a separate model-powered workflow and requires an API key.
+**Important distinction:** Retrieving a prompt template does not invoke an AI model or automatically reformat or summarize the document. The demo demonstrates MCP prompt retrieval, not model-generated content.
 
 ## Architecture
 
 ```text
-Python MCP Client / Optional Claude CLI
+Python MCP Client
              |
          stdio session
              |
@@ -55,16 +55,8 @@ mcp-client-server-integration/
 ├── mcp_server.py               # FastMCP DocumentMCP server
 ├── mcp_client.py               # ClientSession/stdio implementation
 ├── demo_workflow.py            # API-key-free tool/resource/prompt smoke test
-├── main.py                     # Optional Claude-powered chat CLI
-├── core/                       # Optional CLI application components
-│   ├── chat.py
-│   ├── claude.py
-│   ├── cli.py
-│   ├── cli_chat.py
-│   └── tools.py
 ├── visualizations/
 │   └── mcp_integration_demo.png
-├── .env.example
 ├── .gitignore
 ├── pyproject.toml
 └── README.md
@@ -130,18 +122,6 @@ You can also list capabilities with:
 python mcp_client.py
 ```
 
-## Optional Claude-Powered Command-Line Interface
-
-The `core/` modules and `main.py` provide an additional chat interface. This component is optional and is not required for the protocol smoke test.
-
-1. Copy `.env.example` to `.env` locally.
-2. Add your own `ANTHROPIC_API_KEY` and an available `CLAUDE_MODEL` identifier.
-3. Run `python main.py`.
-
-The interface supports ordinary text queries, document mentions such as `@deposition.md`, and prompt commands such as `/summarize deposition.md`.
-
-**Note:** These modules were consolidated from an earlier CLI project with identified bugs corrected, but the full model-powered chat workflow has not been regression-tested here. It may require SDK compatibility adjustments or additional refinement. Do not commit `.env` or real credentials to GitHub.
-
 ## In-Memory Document Design
 
 The six example document IDs, including `report.pdf` and `financials.docx`, are keys in a Python dictionary. Their associated values are synthetic text descriptions, not the actual contents of files with those extensions.
@@ -156,13 +136,11 @@ The limitation is that changes are not saved to disk and disappear when the serv
 - The server does not currently parse real PDF, Word, or Markdown files.
 - `format` and `summarize` are prompt templates; actual LLM execution requires a connected model-powered client.
 - Server state resets after restart; persistence, authentication, authorization, and audit logging are not implemented.
-- The optional Claude CLI may incur provider API charges and should not be run with real confidential materials without appropriate authorization.
 - Any production adaptation would require broader testing, input validation, secure storage, and permission controls.
 
 ## Future Development
 
 - Reproduce the passing local smoke test in a clean environment and automate it through CI.
-- Validate and harden the optional Claude-powered CLI workflow.
 - Add persistent, sandboxed file-backed document storage.
 - Support actual text extraction and editing for supported document formats.
 - Add automated regression tests, permission controls, and audit events.
@@ -177,11 +155,11 @@ The project provides practical examples of asynchronous Python programming, clie
 ---
 
 **Project Type:** Applied AI & MCP Integration Portfolio Project  
-**Technologies:** Python, MCP Python SDK (v1), FastMCP, asyncio, Pydantic, Anthropic SDK (optional), prompt-toolkit (optional)  
+**Technologies:** Python, MCP Python SDK (v1), FastMCP, asyncio, Pydantic  
 **Core Methods:** Client/Server Architecture, Tool Discovery, Tool Invocation, Resource Access, Prompt Retrieval  
 **Data Classification:** Synthetic / Demonstration Document Text  
-**Implementation:** Local `stdio` MCP Client and DocumentMCP Server; Optional Claude-Powered CLI  
-**Project Status:** Core MCP Integration Locally Validated (Smoke Test Passed); Optional Claude CLI Not Yet Regression-Tested  
+**Implementation:** Local `stdio` MCP Client and DocumentMCP Server  
+**Project Status:** Core MCP Integration Locally Validated (Smoke Test Passed)  
 
 **Developed by Glahnnia "Renee" Rates, MSHS, CCHW II**  
 Public Health Informatics | Applied AI | Workforce Development | Data Analytics

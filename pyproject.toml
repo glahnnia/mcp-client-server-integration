@@ -5,13 +5,10 @@ description = "Portfolio demonstration of MCP client/server tools, resources, an
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-  "mcp[cli]>=1.8,<2",
-  "anthropic>=0.51,<2",
-  "python-dotenv>=1.1,<2",
-  "prompt-toolkit>=3.0.51,<4",
+  "mcp>=1.8,<2",
+  "pydantic>=2,<3",
 ]
 
-
 [tool.setuptools]
-packages = ["core"]
-py-modules = ["mcp_server", "mcp_client", "demo_workflow", "main"]
+packages = []
+py-modules = ["mcp_server", "mcp_client", "demo_workflow"]
