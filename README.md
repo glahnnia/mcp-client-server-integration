@@ -51,7 +51,7 @@ Python MCP Client / Optional Claude CLI
 ## Repository Structure
 
 ```text
-mcp-integration-portfolio/
+mcp-client-server-integration/
 ├── mcp_server.py               # FastMCP DocumentMCP server
 ├── mcp_client.py               # ClientSession/stdio implementation
 ├── demo_workflow.py            # API-key-free tool/resource/prompt smoke test
@@ -114,7 +114,15 @@ This test attempts to:
 
 A successful run ends with `PASS: MCP tool, resource, and prompt smoke test`.
 
-**Validation status:** The package has passed Python syntax-compilation checks. This end-to-end MCP smoke test has **not yet been executed in the preparation environment**, because the MCP SDK is not installed there. Run the command above locally before describing the integration as independently validated.
+**Validation status:** **Local MCP smoke test passed on Windows (November 2026).** The user ran `demo_workflow.py` in VS Code after installing the dependencies, confirming the client/server connection, tool discovery and invocation, document updates, resource retrieval, and prompt retrieval. Example output:
+
+```text
+Read demo document: The report details the state of a 20m condenser tower.
+Updated document resource: Updated test content (in memory only).
+PASS: MCP tool, resource, and prompt smoke test
+```
+
+This is a successful **user-run local integration test**. It has not yet been reproduced in an independent clean environment or automated through CI.
 
 You can also list capabilities with:
 
@@ -153,7 +161,7 @@ The limitation is that changes are not saved to disk and disappear when the serv
 
 ## Future Development
 
-- Validate the full end-to-end MCP smoke test in a clean environment.
+- Reproduce the passing local smoke test in a clean environment and automate it through CI.
 - Validate and harden the optional Claude-powered CLI workflow.
 - Add persistent, sandboxed file-backed document storage.
 - Support actual text extraction and editing for supported document formats.
@@ -173,7 +181,7 @@ The project provides practical examples of asynchronous Python programming, clie
 **Core Methods:** Client/Server Architecture, Tool Discovery, Tool Invocation, Resource Access, Prompt Retrieval  
 **Data Classification:** Synthetic / Demonstration Document Text  
 **Implementation:** Local `stdio` MCP Client and DocumentMCP Server; Optional Claude-Powered CLI  
-**Project Status:** Code Consolidated; Python Syntax Checks Passed; End-to-End MCP Validation Pending  
+**Project Status:** Core MCP Integration Locally Validated (Smoke Test Passed); Optional Claude CLI Not Yet Regression-Tested  
 
 **Developed by Glahnnia "Renee" Rates, MSHS, CCHW II**  
 Public Health Informatics | Applied AI | Workforce Development | Data Analytics
